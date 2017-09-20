@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <nav
+          <div
             className="navbar"
             role="navigation"
             aria-label="main navigation"
@@ -32,7 +32,7 @@ class App extends Component {
                 </a>
               </a>
             </div>
-          </nav>
+          </div>
           <Route exact path="/" component={Checkout} />
           <Route exact path="/return" component={Return} />
           <Route exact path="/items" component={Items} />

@@ -8,6 +8,8 @@ class Items extends Component {
   constructor(props) {
     super(props);
     this.loadData = this.loadData.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       tableOptions: {
         loading: true,
@@ -22,7 +24,8 @@ class Items extends Component {
         sortable: true,
         resizable: true
       },
-      data: []
+      data: [],
+      item: ""
     };
   }
 
@@ -56,7 +59,43 @@ class Items extends Component {
   componentDidMount() {
     this.loadData();
   }
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
 
+    this.setState({
+      [name]: value
+    });
+  }
+  handleSubmit(event) {
+    var details = {
+      item: this.state.item
+    };
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    fetch("/api/new", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formBody
+    })
+      .then(function(response) {
+        this.loadData();
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    event.preventDefault();
+  }
   render() {
     const data = this.state.data;
     const columns = [
@@ -95,6 +134,23 @@ class Items extends Component {
             String(row[filter.id]) === filter.value}
           {...this.state.tableOptions}
         />
+
+        <form onSubmit={this.handleSubmit}>
+          <div className="field">
+            <label className="label">
+              Item:
+              <input
+                className="input"
+                name="item"
+                type="text"
+                value={this.state.item}
+                onChange={this.handleInputChange}
+              />
+            </label>
+          </div>
+
+          <input className="button is-primary" type="submit" value="Submit" />
+        </form>
       </div>
     );
   }

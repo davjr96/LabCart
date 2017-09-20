@@ -45,4 +45,18 @@ module.exports = function(app) {
       }
     );
   });
+
+  app.post("/api/new", (req, res) => {
+    var item = req.body.item;
+    pool.query("INSERT into items (item_id) VALUES ('" + item + "');", function(
+      err,
+      dbres
+    ) {
+      if (err) {
+        console.error("error running query", err);
+        return res.send(err);
+      }
+      return res.send({ status: "OK" });
+    });
+  });
 };
