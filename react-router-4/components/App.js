@@ -6,7 +6,6 @@ import {
   Link
 } from "react-router-dom";
 import { connect } from "react-redux";
-import styles from "./App.css";
 import { logout } from "../actions/user";
 import {
   userIsAuthenticatedRedir,
@@ -16,26 +15,22 @@ import {
   userIsNotAuthenticated
 } from "../auth";
 
-import AdminComponent from "./Admin";
 import ProtectedComponent from "./Protected";
 import LoginComponent from "./Login";
-import Home from "./Home";
 import Checkout from "./Checkout";
 import Return from "./Return";
-import Items from "./Items";
 
 // Need to apply the hocs here to avoid applying them inside the render method
 const Login = userIsNotAuthenticatedRedir(LoginComponent);
 const Protected = userIsAuthenticatedRedir(ProtectedComponent);
-const Admin = userIsAuthenticatedRedir(userIsAdminRedir(AdminComponent));
 
 const LoginLink = userIsNotAuthenticated(() => (
-  <NavLink activeClassName={styles.active} to="/login">
+  <Link className="button is-large" to="/login">
     Login
-  </NavLink>
+  </Link>
 ));
 const LogoutLink = userIsAuthenticated(({ logout }) => (
-  <a href="#" onClick={() => logout()}>
+  <a href="#" className="button is-large" onClick={() => logout()}>
     Logout
   </a>
 ));
@@ -47,25 +42,25 @@ function App({ user, logout }) {
         <div className="navbar" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
             <a className="navbar-item">
-              <a className="button is-large">
-                <Link to="/checkout">Checkout</Link>
-              </a>
+              <Link className="button is-large" to="/">
+                Checkout
+              </Link>
             </a>
             <a className="navbar-item">
-              <a className="button is-large">
-                <Link to="/">Return</Link>
-              </a>
+              <Link className="button is-large" to="/return">
+                Return
+              </Link>
             </a>
-          </div>
-          <div className="navbar-end">
-            <LoginLink />
-            <LogoutLink logout={logout} />
+            <div className="navbar-end">
+              <LoginLink />
+              <LogoutLink logout={logout} />
+            </div>
           </div>
         </div>
-        <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
-        <Route path="/checkout" component={Protected} />
-        <Route path="/admin" component={Admin} />
+        <Route exact path="/" component={Checkout} />
+        <Route path="/return" component={Return} />
+        <Route path="/items" component={Protected} />
       </div>
     </Router>
   );

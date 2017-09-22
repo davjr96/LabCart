@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import Checkout from "./Checkout";
+import Items from "./Items";
 const Protected = ({ authData }) => {
-  return <Checkout />;
+  return <Items />;
 };
 export default connect(state => ({ authData: state.user.data }))(Protected);
