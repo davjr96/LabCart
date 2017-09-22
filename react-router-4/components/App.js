@@ -34,27 +34,27 @@ const LogoutLink = userIsAuthenticated(({ logout }) => (
     Logout
   </a>
 ));
+const InventoryLink = userIsAuthenticated(() => (
+  <Link className="navbar-item button is-large" to="/items">
+    Inventory
+  </Link>
+));
 
 function App({ user, logout }) {
   return (
     <Router>
       <div>
         <div className="navbar" role="navigation" aria-label="main navigation">
-          <div className="navbar-brand">
-            <a className="navbar-item">
-              <Link className="button is-large" to="/">
-                Checkout
-              </Link>
-            </a>
-            <a className="navbar-item">
-              <Link className="button is-large" to="/return">
-                Return
-              </Link>
-            </a>
-            <div className="navbar-end">
-              <LoginLink />
-              <LogoutLink logout={logout} />
-            </div>
+          <Link className="navbar-item button is-large" to="/">
+            Checkout
+          </Link>
+          <Link className="navbar-item button is-large" to="/return">
+            Return
+          </Link>
+          <InventoryLink />
+          <div className="navbar-end">
+            <LoginLink />
+            <LogoutLink logout={logout} />
           </div>
         </div>
         <Route path="/login" component={Login} />
