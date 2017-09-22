@@ -1,7 +1,6 @@
 {
   "name": "raw-loading-rrv4-example",
   "version": "0.1.0",
-  "proxy": "http://localhost:3000",
   "dependencies": {
     "css-loader": "^0.28.4",
     "react": "^15.4.2",
