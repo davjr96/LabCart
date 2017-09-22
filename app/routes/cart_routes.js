@@ -35,7 +35,7 @@ module.exports = function(app) {
         if (dbres.rowCount == 0) {
           return res.status(500).json({
             status: "error",
-            message: "No Item Found"
+            message: "Item Not Found"
           });
         }
         return res.send({ status: "OK" });
@@ -59,7 +59,7 @@ module.exports = function(app) {
         if (dbres.rowCount == 0) {
           return res.status(500).json({
             status: "error",
-            message: "No Item Found"
+            message: "Item Not Found"
           });
         }
         return res.send({ status: "OK" });

@@ -4,11 +4,20 @@ class Return extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      item: ""
+      item: "",
+      notification: false,
+      notificationText: "",
+      notificationType: ""
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDismiss = this.handleDismiss.bind(this);
+  }
+  handleDismiss() {
+    this.setState({
+      notification: false
+    });
   }
 
   handleInputChange(event) {
@@ -44,7 +53,19 @@ class Return extends Component {
         return response.json();
       })
       .then(json => {
-        console.log(json);
+        if (json.status === "OK") {
+          this.setState({
+            notification: true,
+            notificationText: "Success!",
+            notificationType: "notification is-success"
+          });
+        } else {
+          this.setState({
+            notification: true,
+            notificationText: json.message,
+            notificationType: "notification is-danger"
+          });
+        }
       })
       .catch(function(ex) {
         console.log("parsing failed", ex);
@@ -52,8 +73,16 @@ class Return extends Component {
     event.preventDefault();
   }
   render() {
+    const message = this.state.notificationText;
+    const type = this.state.notificationType;
     return (
       <section className="section">
+        {this.state.notification ? (
+          <div className={type}>
+            <button className="delete" onClick={this.handleDismiss} />
+            {message}
+          </div>
+        ) : null}
         <div className="container">
           <h1 className="title">Return</h1>
           <div className="columns">
