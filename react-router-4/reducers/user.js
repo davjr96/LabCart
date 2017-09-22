@@ -1,19 +1,19 @@
-import * as constants from "../constants";
+import * as constants from '../constants'
 
 const initialState = {
   data: null,
   isLoading: false
-};
+}
 
 export default function userUpdate(state = initialState, { type, payload }) {
   switch (type) {
     case constants.USER_LOGGING_IN:
-      return { ...initialState, isLoading: true };
+      return { ...initialState, isLoading: true }
     case constants.USER_LOGGED_IN:
-      return { data: payload, isLoading: false };
+      return { data: payload, isLoading: false }
     case constants.USER_LOGGED_OUT:
-      return initialState;
+      return initialState
     default:
-      return state;
+      return state
   }
 }
