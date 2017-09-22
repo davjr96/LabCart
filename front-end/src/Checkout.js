@@ -45,9 +45,14 @@ class Checkout extends Component {
       body: formBody
     })
       .then(function(response) {
-        alert("Success");
+        return response.json();
       })
-      .catch(function(err) {});
+      .then(json => {
+        console.log(json);
+      })
+      .catch(function(ex) {
+        console.log("parsing failed", ex);
+      });
     event.preventDefault();
   }
 
@@ -59,7 +64,8 @@ class Checkout extends Component {
           <div className="columns">
             <div className="column " />
             <div className="column is-one-third">
-              {" "}<form onSubmit={this.handleSubmit}>
+              {" "}
+              <form onSubmit={this.handleSubmit}>
                 <div className="field">
                   <label className="label">
                     Email:

@@ -89,10 +89,13 @@ class Items extends Component {
       body: formBody
     })
       .then(function(response) {
-        this.loadData();
+        return response.json();
       })
-      .catch(function(err) {
-        console.log(err);
+      .then(json => {
+        console.log(json);
+      })
+      .catch(function(ex) {
+        console.log("parsing failed", ex);
       });
     event.preventDefault();
   }

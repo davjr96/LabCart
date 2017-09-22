@@ -41,9 +41,14 @@ class Return extends Component {
       body: formBody
     })
       .then(function(response) {
-        alert("Success");
+        return response.json();
       })
-      .catch(function(err) {});
+      .then(json => {
+        console.log(json);
+      })
+      .catch(function(ex) {
+        console.log("parsing failed", ex);
+      });
     event.preventDefault();
   }
   render() {

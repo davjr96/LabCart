@@ -5,7 +5,10 @@ module.exports = function(app) {
   app.get("/api/items", (req, res) => {
     pool.query("SELECT * FROM items;", function(err, dbres) {
       if (err) {
-        return console.error("error running query", err);
+        return res.status(err.status || 500).json({
+          status: "error",
+          message: err.message
+        });
       }
       res.send(dbres.rows);
     });
@@ -24,7 +27,16 @@ module.exports = function(app) {
         "';",
       function(err, dbres) {
         if (err) {
-          return console.error("error running query", err);
+          return res.status(err.status || 500).json({
+            status: "error",
+            message: err.message
+          });
+        }
+        if (dbres.rowCount == 0) {
+          return res.status(500).json({
+            status: "error",
+            message: "No Item Found"
+          });
         }
         return res.send({ status: "OK" });
       }
@@ -39,7 +51,16 @@ module.exports = function(app) {
         "';",
       function(err, dbres) {
         if (err) {
-          return console.error("error running query", err);
+          return res.status(err.status || 500).json({
+            status: "error",
+            message: err.message
+          });
+        }
+        if (dbres.rowCount == 0) {
+          return res.status(500).json({
+            status: "error",
+            message: "No Item Found"
+          });
         }
         return res.send({ status: "OK" });
       }
@@ -53,8 +74,10 @@ module.exports = function(app) {
       dbres
     ) {
       if (err) {
-        console.error("error running query", err);
-        return res.send(err);
+        return res.status(err.status || 500).json({
+          status: "error",
+          message: err.message
+        });
       }
       return res.send({ status: "OK" });
     });
