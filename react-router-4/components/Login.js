@@ -11,27 +11,49 @@ export class LoginContainer extends Component {
   onClick = e => {
     e.preventDefault();
     this.props.login({
-      name: this.refs.name.value
+      email: this.refs.email.value
     });
   };
 
   render() {
     return (
-      <div className={styles.login}>
-        <div>
-          <input
-            className={styles.username}
-            type="text"
-            ref="name"
-            placeholder="Enter your username"
-          />
+      <section className="section">
+        <div className="container">
+          <h1 className="title">Login</h1>
+          <div className="columns">
+            <div className="column " />
+            <div className="column is-one-third">
+              <div className="field">
+                <label className="label">
+                  Email:
+                  <input
+                    className="input"
+                    name="email"
+                    type="email"
+                    ref="email"
+                  />
+                </label>
+              </div>
+              <br />
+              <div className="field">
+                <label className="label">
+                  Password:
+                  <input
+                    className="input"
+                    name="item"
+                    type="password"
+                    ref="password"
+                  />
+                </label>
+              </div>
+              <button className={styles.button} onClick={this.onClick}>
+                Login
+              </button>
+            </div>
+            <div className="column" />
+          </div>
         </div>
-        <div>
-          <button className={styles.button} onClick={this.onClick}>
-            Login
-          </button>
-        </div>
-      </div>
+      </section>
     );
   }
 }

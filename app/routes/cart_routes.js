@@ -17,6 +17,7 @@ module.exports = function(app) {
   app.post("/api/checkout", (req, res) => {
     var item = req.body.item;
     var email = req.body.email;
+
     pool.query(
       "UPDATE items SET out_to = '" +
         email +

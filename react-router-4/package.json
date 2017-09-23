@@ -1,5 +1,5 @@
 {
-  "name": "raw-loading-rrv4-example",
+  "name": "labcart",
   "version": "0.1.0",
   "dependencies": {
     "css-loader": "^0.28.4",

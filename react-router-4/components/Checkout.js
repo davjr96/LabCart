@@ -12,6 +12,8 @@ class Checkout extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDismiss = this.handleDismiss.bind(this);
   }
@@ -20,60 +22,71 @@ class Checkout extends Component {
       notification: false
     });
   }
-
+  onKeyPress(event) {
+    if (event.which === 13 /* Enter */) {
+      event.preventDefault();
+      this.setState({
+        item: this.state.item + ","
+      });
+    }
+  }
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-
     this.setState({
       [name]: value
     });
   }
 
   handleSubmit(event) {
-    var details = {
-      email: this.state.email,
-      item: this.state.item
-    };
-    var formBody = [];
-    for (var property in details) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(details[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-
-    fetch("/api/checkout", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: formBody
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(json => {
-        if (json.status === "OK") {
-          this.setState({
-            notification: true,
-            notificationText: "Success!",
-            notificationType: "notification is-success"
-          });
-        } else {
-          this.setState({
-            notification: true,
-            notificationText: json.message,
-            notificationType: "notification is-danger"
-          });
-        }
-      })
-      .catch(function(ex) {
-        console.log("parsing failed", ex);
-      });
     event.preventDefault();
+
+    var items = this.state.item.split(",");
+    console.log(items);
+    for (var i = 0; i < items.length - 1; i++) {
+      var details = {
+        email: this.state.email,
+        item: items[i]
+      };
+      var formBody = [];
+      for (var property in details) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(details[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+      }
+      formBody = formBody.join("&");
+
+      fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formBody
+      })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(json => {
+          if (json.status === "OK") {
+            this.setState({
+              notification: true,
+              notificationText: "Success!",
+              notificationType: "notification is-success"
+            });
+          } else {
+            this.setState({
+              notification: true,
+              notificationText: json.message,
+              notificationType: "notification is-danger"
+            });
+          }
+        })
+        .catch(function(ex) {
+          console.log("parsing failed", ex);
+        });
+    }
   }
 
   render() {
@@ -95,7 +108,7 @@ class Checkout extends Component {
             <div className="column " />
             <div className="column is-one-third">
               {" "}
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handleSubmit} onKeyPress={this.onKeyPress}>
                 <div className="field">
                   <label className="label">
                     Email:
