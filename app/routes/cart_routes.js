@@ -1,6 +1,9 @@
 const pool = require("../../config/db");
 var moment = require("moment");
+
 module.exports = function(app) {
+  //Return all items and their status
+  //This is only accessible by an admin, the credentials must be included in the post request
   app.post("/api/items", (req, res) => {
     var user = req.body.user;
     var pass = req.body.pass;
@@ -37,6 +40,7 @@ module.exports = function(app) {
     );
   });
 
+  //Checkout an item
   app.post("/api/checkout", (req, res) => {
     var item = req.body.item;
     var email = req.body.email;
@@ -82,7 +86,7 @@ module.exports = function(app) {
       );
     });
   });
-
+  //Return an item
   app.post("/api/checkin", (req, res) => {
     var item = req.body.item;
     pool.query("SELECT * FROM items WHERE item_id = '" + item + "';", function(
@@ -124,6 +128,8 @@ module.exports = function(app) {
     });
   });
 
+  //Add a new item
+  //This is only accessible by an admin, the credentials must be included in the post request
   app.post("/api/new", (req, res) => {
     var item = req.body.item;
     var user = req.body.user;

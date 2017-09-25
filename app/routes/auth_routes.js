@@ -1,6 +1,7 @@
 const pool = require("../../config/db");
 var moment = require("moment");
 
+//Login route. Will check to see if a user is in the DB and will return accordingly
 module.exports = function(app) {
   app.post("/api/login", (req, res) => {
     var user = req.body.user;
