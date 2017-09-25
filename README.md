@@ -133,6 +133,27 @@ npm install
 
 Update config/db.js to reflect the PostgresSQL user you created when installing the database (NOT the user in the users table, but the actual DB user)
 
+Install pm2
+```
+sudo npm install -g pm2
+```
+Start server.js with pm2
+```
+pm2 start server.js
+pm2 startup
+```
+After running the command pm2 enable it will output a command, run that so that pm2 will start on boot.
+
+Build the front-end
+```
+cd front-end
+npm run build
+```
+
+### Nginx Setup
+We will use nginx to host the front-end and proxy the back-end API.
+
+
 ## Built With
 
 * [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
