@@ -47,7 +47,7 @@ export class LoginContainer extends Component {
                   />
                 </label>
               </div>
-              <button className={styles.button} onClick={this.onClick}>
+              <button className="button is-primary" onClick={this.onClick}>
                 Login
               </button>
             </div>
