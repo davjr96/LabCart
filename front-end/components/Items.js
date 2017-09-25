@@ -42,7 +42,25 @@ class Items extends Component {
   }
 
   loadData() {
-    fetch("/api/items")
+    var details = {
+      user: this.props.authData.user,
+      pass: this.props.authData.pass
+    };
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+    fetch("/api/items", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formBody
+    })
       .then(function(response) {
         return response.json();
       })

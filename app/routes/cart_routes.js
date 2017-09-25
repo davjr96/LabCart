@@ -1,16 +1,40 @@
 const pool = require("../../config/db");
 var moment = require("moment");
 module.exports = function(app) {
-  app.get("/api/items", (req, res) => {
-    pool.query("SELECT * FROM items;", function(err, dbres) {
-      if (err) {
-        return res.status(err.status || 500).json({
-          status: "error",
-          message: err.message
-        });
+  app.post("/api/items", (req, res) => {
+    var user = req.body.user;
+    var pass = req.body.pass;
+    pool.query(
+      "SELECT * FROM users WHERE users.user='" +
+        user +
+        "' AND users.pass='" +
+        pass +
+        "';",
+      function(err, dbres) {
+        if (err) {
+          return res.status(err.status || 500).json({
+            status: "error",
+            message: err.message
+          });
+        }
+        if (dbres.rows.length == 0) {
+          return res.status(401).json({
+            status: "Unauthorized",
+            message: "User Not Found"
+          });
+        } else {
+          pool.query("SELECT * FROM items;", function(err1, dbres1) {
+            if (err1) {
+              return res.status(err1.status || 500).json({
+                status: "error",
+                message: err1.message
+              });
+            }
+            res.send(dbres1.rows);
+          });
+        }
       }
-      res.send(dbres.rows);
-    });
+    );
   });
 
   app.post("/api/checkout", (req, res) => {
