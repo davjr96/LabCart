@@ -39,12 +39,12 @@ INSERT INTO "public"."users"("user", "pass") VALUES('glc8a@virginia.edu', 'secre
 ### Installing
 
 First clone this repository
-```
+```shell
 git clone https://github.com/davjr96/LabCart.git
 ```
 
 then install necessary packages
-```
+```shell
 cd LabCart
 npm install
 cd front-end
@@ -54,11 +54,11 @@ npm install
 Update config/db.js to reflect the PostgresSQL user you created when installing the database (NOT the user in the users table, but the actual DB user)
 
 In one terminal tab run:
-```
+```shell
 node server.js
 ```
 In another run
-```
+```shell
 cd front-end
 npm Started
 ```
@@ -73,18 +73,18 @@ This are instructions for installing on a fresh RaspberryPi 3 in production.
 
 ### PostgresSQL Install
 First install PostgresSQL:
-```
+```shell
 sudo apt-get install postgresql-9.6
 ```
 Then create the postgres user
-```
+```shell
 sudo -u postgres psql
 \password postgres
 \q
 ```
 
 Also install pgAdmin
-```
+```shell
 sudo apt-get install pgadmin3
 ```
 Create the tables:
@@ -114,17 +114,17 @@ INSERT INTO "public"."users"("user", "pass") VALUES('glc8a@virginia.edu', 'secre
 
 ### Server Setup
 First install node and npm
-```
+```shell
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install nodejs
 ```
 Clone this repository
-```
+```shell
 git clone https://github.com/davjr96/LabCart.git
 ```
 
 then install necessary packages
-```
+```shell
 cd LabCart
 npm install
 cd front-end
@@ -134,18 +134,18 @@ npm install
 Update config/db.js to reflect the PostgresSQL user you created when installing the database (NOT the user in the users table, but the actual DB user)
 
 Install pm2
-```
+```shell
 sudo npm install -g pm2
 ```
 Start server.js with pm2
-```
+```shell
 pm2 start server.js
 pm2 startup
 ```
 After running the command pm2 enable it will output a command, run that so that pm2 will start on boot.
 
 Build the front-end
-```
+```shell
 cd front-end
 npm run build
 ```
@@ -153,11 +153,11 @@ npm run build
 ### Nginx Setup
 We will use nginx to host the front-end and proxy the back-end API.
 First install nginx
-```
+```shell
 sudo apt-get install nginx
 ```
 Then replace the configuration:
-```
+```shell
 sudo nano /etc/nginx/sites-available/default
 ```
 with the following
@@ -182,4 +182,7 @@ server {
 
 }
 ```
-
+Then start nginx
+```shell
+sudo /etc/init.d/nginx start
+```
