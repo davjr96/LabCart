@@ -11,7 +11,8 @@ export class LoginContainer extends Component {
   onClick = e => {
     e.preventDefault();
     this.props.login({
-      email: this.refs.email.value
+      user: this.refs.email.value,
+      pass: this.refs.password.value
     });
   };
 

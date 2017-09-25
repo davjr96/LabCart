@@ -15,14 +15,13 @@ import {
   userIsNotAuthenticated
 } from "../auth";
 
-import ProtectedComponent from "./Protected";
 import LoginComponent from "./Login";
 import Checkout from "./Checkout";
 import Return from "./Return";
-
+import Items from "./Items";
 // Need to apply the hocs here to avoid applying them inside the render method
 const Login = userIsNotAuthenticatedRedir(LoginComponent);
-const Protected = userIsAuthenticatedRedir(ProtectedComponent);
+const Protected = userIsAuthenticatedRedir(Items);
 
 const LoginLink = userIsNotAuthenticated(() => (
   <Link className="button is-large" to="/login">

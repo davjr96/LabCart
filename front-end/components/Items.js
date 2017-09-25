@@ -3,6 +3,7 @@ import "whatwg-fetch";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from "match-sorter";
+import { connect } from "react-redux";
 
 class Items extends Component {
   constructor(props) {
@@ -81,7 +82,9 @@ class Items extends Component {
   }
   handleSubmit(event) {
     var details = {
-      item: this.state.item
+      item: this.state.item,
+      user: this.props.authData.user,
+      pass: this.props.authData.pass
     };
     var formBody = [];
     for (var property in details) {
@@ -124,6 +127,7 @@ class Items extends Component {
       });
     event.preventDefault();
   }
+
   render() {
     const data = this.state.data;
     const message = this.state.notificationText;
@@ -194,4 +198,4 @@ class Items extends Component {
   }
 }
 
-export default Items;
+export default connect(state => ({ authData: state.user.data }))(Items);
