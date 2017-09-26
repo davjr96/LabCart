@@ -99,6 +99,7 @@ class Return extends Component {
                       className="input"
                       name="item"
                       type="text"
+                      autoComplete="off"
                       value={this.state.item}
                       onChange={this.handleInputChange}
                     />

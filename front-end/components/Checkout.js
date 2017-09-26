@@ -116,6 +116,7 @@ class Checkout extends Component {
                       className="input"
                       name="email"
                       type="email"
+                      autoComplete="off"
                       checked={this.state.email}
                       onChange={this.handleInputChange}
                     />
@@ -130,6 +131,7 @@ class Checkout extends Component {
                       className="input"
                       name="item"
                       type="text"
+                      autoComplete="off"
                       value={this.state.item}
                       onChange={this.handleInputChange}
                     />
