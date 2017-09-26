@@ -53,6 +53,9 @@ class Return extends Component {
         return response.json();
       })
       .then(json => {
+        this.setState({
+          item: ""
+        });
         if (json.status === "OK") {
           this.setState({
             notification: true,

@@ -125,7 +125,9 @@ class Items extends Component {
       })
       .then(json => {
         this.loadData();
-
+        this.setState({
+          item: ""
+        });
         if (json.status === "OK") {
           this.setState({
             notification: true,
