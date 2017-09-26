@@ -23,12 +23,13 @@ class Checkout extends Component {
     });
   }
   onKeyPress(event) {
-    if (event.which === 13 /* Enter */) {
-      event.preventDefault();
-      this.setState({
-        item: this.state.item + ","
-      });
-    }
+    // console.log(event.which);
+    // if (event.which === 9 /* Enter */) {
+    //   event.preventDefault();
+    //   this.setState({
+    //     item: this.state.item + ","
+    //   });
+    // }
   }
   handleInputChange(event) {
     const target = event.target;
@@ -42,51 +43,50 @@ class Checkout extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    var items = this.state.item.split(",");
-    console.log(items);
-    for (var i = 0; i < items.length - 1; i++) {
-      var details = {
-        email: this.state.email,
-        item: items[i]
-      };
-      var formBody = [];
-      for (var property in details) {
-        var encodedKey = encodeURIComponent(property);
-        var encodedValue = encodeURIComponent(details[property]);
-        formBody.push(encodedKey + "=" + encodedValue);
-      }
-      formBody = formBody.join("&");
-
-      fetch("/api/checkout", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: formBody
-      })
-        .then(function(response) {
-          return response.json();
-        })
-        .then(json => {
-          if (json.status === "OK") {
-            this.setState({
-              notification: true,
-              notificationText: "Success!",
-              notificationType: "notification is-success"
-            });
-          } else {
-            this.setState({
-              notification: true,
-              notificationText: json.message,
-              notificationType: "notification is-danger"
-            });
-          }
-        })
-        .catch(function(ex) {
-          console.log("parsing failed", ex);
-        });
+    var details = {
+      email: this.state.email,
+      item: this.state.item
+    };
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
     }
+    formBody = formBody.join("&");
+
+    fetch("/api/checkout", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formBody
+    })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(json => {
+        this.setState({
+          item: ""
+        });
+        if (json.status === "OK") {
+          this.setState({
+            notification: true,
+            notificationText: "Success!",
+            notificationType: "notification is-success"
+          });
+        } else {
+          this.setState({
+            notification: true,
+            notificationText: json.message,
+            notificationType: "notification is-danger"
+          });
+        }
+      })
+      .catch(function(ex) {
+        console.log("parsing failed", ex);
+      });
   }
 
   render() {
