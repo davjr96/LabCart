@@ -206,7 +206,7 @@ class Items extends Component {
 
         <br />
         <ReactTable
-          className="-striped -highlight"
+          className="-striped -highlight table"
           data={data}
           columns={columns}
           defaultPageSize={10}

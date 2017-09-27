@@ -117,6 +117,7 @@ class Checkout extends Component {
                       name="email"
                       type="email"
                       autoComplete="off"
+                      autoFocus="on"
                       checked={this.state.email}
                       onChange={this.handleInputChange}
                     />
