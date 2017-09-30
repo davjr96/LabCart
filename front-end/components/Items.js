@@ -31,7 +31,8 @@ class Items extends Component {
       item: "",
       notification: false,
       notificationText: "",
-      notificationType: ""
+      notificationType: "",
+      timer: null
     };
   }
 
@@ -39,6 +40,7 @@ class Items extends Component {
     this.setState({
       notification: false
     });
+    clearInterval(this.state.timer);
   }
 
   loadData() {
@@ -88,6 +90,9 @@ class Items extends Component {
   }
   componentDidMount() {
     this.loadData();
+  }
+  componentWillUnmount() {
+    clearInterval(this.state.timer);
   }
   handleInputChange(event) {
     const target = event.target;
@@ -141,6 +146,10 @@ class Items extends Component {
             notificationType: "notification is-danger"
           });
         }
+        clearInterval(this.state.timer);
+
+        let timer = setInterval(this.handleDismiss, 3000);
+        this.setState({ timer });
       })
       .catch(function(ex) {
         console.log("parsing failed", ex);

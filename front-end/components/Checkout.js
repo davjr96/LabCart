@@ -8,7 +8,8 @@ class Checkout extends Component {
       item: "",
       notification: false,
       notificationText: "",
-      notificationType: ""
+      notificationType: "",
+      timer: null
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -20,8 +21,11 @@ class Checkout extends Component {
     this.setState({
       notification: false
     });
+    clearInterval(this.state.timer);
   }
-
+  componentWillUnmount() {
+    clearInterval(this.state.timer);
+  }
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -74,6 +78,10 @@ class Checkout extends Component {
             notificationType: "notification is-danger"
           });
         }
+        clearInterval(this.state.timer);
+
+        let timer = setInterval(this.handleDismiss, 5000);
+        this.setState({ timer });
       })
       .catch(function(ex) {
         console.log("parsing failed", ex);
@@ -102,11 +110,11 @@ class Checkout extends Component {
               <form onSubmit={this.handleSubmit}>
                 <div className="field">
                   <label className="label">
-                    Email:
+                    Computing ID:
                     <input
                       className="input"
                       name="email"
-                      type="email"
+                      type="text"
                       autoComplete="off"
                       autoFocus="on"
                       checked={this.state.email}
