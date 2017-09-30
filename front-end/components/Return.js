@@ -59,7 +59,7 @@ class Return extends Component {
         if (json.status === "OK") {
           this.setState({
             notification: true,
-            notificationText: "Success!",
+            notificationText: "Success! You have returned " + json.message,
             notificationType: "notification is-success"
           });
         } else {

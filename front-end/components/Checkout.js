@@ -12,7 +12,6 @@ class Checkout extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.onKeyPress = this.onKeyPress.bind(this);
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDismiss = this.handleDismiss.bind(this);
@@ -22,15 +21,7 @@ class Checkout extends Component {
       notification: false
     });
   }
-  onKeyPress(event) {
-    // console.log(event.which);
-    // if (event.which === 9 /* Enter */) {
-    //   event.preventDefault();
-    //   this.setState({
-    //     item: this.state.item + ","
-    //   });
-    // }
-  }
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -73,7 +64,7 @@ class Checkout extends Component {
         if (json.status === "OK") {
           this.setState({
             notification: true,
-            notificationText: "Success!",
+            notificationText: "Success! You have checked out " + json.message,
             notificationType: "notification is-success"
           });
         } else {
@@ -108,7 +99,7 @@ class Checkout extends Component {
             <div className="column " />
             <div className="column is-one-third">
               {" "}
-              <form onSubmit={this.handleSubmit} onKeyPress={this.onKeyPress}>
+              <form onSubmit={this.handleSubmit}>
                 <div className="field">
                   <label className="label">
                     Email:

@@ -81,7 +81,7 @@ module.exports = function(app) {
               message: err.message
             });
           }
-          return res.send({ status: "OK" });
+          return res.status(200).send({ status: "OK", message: item });
         }
       );
     });
@@ -122,7 +122,7 @@ module.exports = function(app) {
               message: err.message
             });
           }
-          return res.send({ status: "OK" });
+          return res.status(200).send({ status: "OK", message: item });
         }
       );
     });
@@ -162,7 +162,7 @@ module.exports = function(app) {
                   message: err1.message
                 });
               }
-              return res.send({ status: "OK" });
+              return res.status(200).send({ status: "OK", message: item });
             }
           );
         }

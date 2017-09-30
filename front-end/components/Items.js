@@ -131,7 +131,7 @@ class Items extends Component {
         if (json.status === "OK") {
           this.setState({
             notification: true,
-            notificationText: "Success!",
+            notificationText: "Success! You have added " + json.message,
             notificationType: "notification is-success"
           });
         } else {
