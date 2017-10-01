@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Link } from "react-router-dom";
 class Return extends Component {
   constructor(props) {
     super(props);
@@ -15,15 +15,16 @@ class Return extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDismiss = this.handleDismiss.bind(this);
   }
+  componentWillUnmount() {
+    clearInterval(this.state.timer);
+  }
   handleDismiss() {
     this.setState({
       notification: false
     });
     clearInterval(this.state.timer);
   }
-  componentWillUnmount() {
-    clearInterval(this.state.timer);
-  }
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -114,12 +115,18 @@ class Return extends Component {
                     />
                   </label>
                 </div>
-
-                <input
-                  className="button is-primary"
-                  type="submit"
-                  value="Submit"
-                />
+                <div className="columns">
+                  <div className="column is-one-half">
+                    <input
+                      className="button is-primary"
+                      type="submit"
+                      value="Submit"
+                    />
+                  </div>
+                  <div className="column is-one-half">
+                    <Link to="/lost">Lost your barcode?</Link>
+                  </div>
+                </div>
               </form>
             </div>
             <div className="column" />

@@ -19,7 +19,7 @@ import LoginComponent from "./Login";
 import Checkout from "./Checkout";
 import Return from "./Return";
 import Items from "./Items";
-
+import Lost from "./Lost";
 // Need to apply the hocs here to avoid applying them inside the render method
 const Login = userIsNotAuthenticatedRedir(LoginComponent);
 const Protected = userIsAuthenticatedRedir(Items);
@@ -60,6 +60,7 @@ function App({ user, logout }) {
           <Route exact path="/" component={Checkout} />
           <Route path="/return" component={Return} />
           <Route path="/items" component={Protected} />
+          <Route path="/lost" component={Lost} />
         </div>
         <footer>
           <div className="navbar-end">

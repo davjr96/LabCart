@@ -39,7 +39,7 @@ class Checkout extends Component {
     event.preventDefault();
 
     var details = {
-      email: this.state.email,
+      email: this.state.email + "@virginia.edu",
       item: this.state.item
     };
     var formBody = [];

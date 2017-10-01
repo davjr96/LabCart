@@ -39,6 +39,22 @@ module.exports = function(app) {
       }
     );
   });
+  //Return an item
+  app.get("/api/items/:email", (req, res) => {
+    var email = req.params.email;
+    pool.query("SELECT * FROM items WHERE out_to = '" + email + "';", function(
+      err,
+      dbres
+    ) {
+      if (err) {
+        return res.status(err.status || 500).json({
+          status: "error",
+          message: err.message
+        });
+      }
+      res.send(dbres.rows);
+    });
+  });
 
   //Checkout an item
   app.post("/api/checkout", (req, res) => {
