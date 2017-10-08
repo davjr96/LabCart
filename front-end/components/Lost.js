@@ -56,7 +56,7 @@ class Lost extends Component {
     });
   }
   handleSubmit(event) {
-    fetch("/api/items/" + this.state.email + "@virginia.edu")
+    fetch("/api/items/" + this.state.email.toLowerCase() + "@virginia.edu")
       .then(function(response) {
         return response.json();
       })

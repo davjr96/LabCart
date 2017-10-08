@@ -10,7 +10,7 @@ export class LoginContainer extends Component {
   onClick = e => {
     e.preventDefault();
     this.props.login({
-      user: this.refs.email.value,
+      user: this.refs.email.value.toLowerCase(),
       pass: this.refs.password.value
     });
   };
