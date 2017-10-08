@@ -3,7 +3,6 @@ import "whatwg-fetch";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from "match-sorter";
-import { connect } from "react-redux";
 
 class Lost extends Component {
   constructor(props) {

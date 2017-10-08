@@ -9,7 +9,9 @@ class Items extends Component {
   constructor(props) {
     super(props);
     this.loadData = this.loadData.bind(this);
+    this.handleDismiss = this.handleDismiss.bind(this);
 
+    this.delete = this.delete.bind(this);
     this.state = {
       tableOptions: {
         loading: true,
@@ -24,8 +26,71 @@ class Items extends Component {
         sortable: true,
         resizable: true
       },
-      data: []
+      data: [],
+      notification: false,
+      notificationText: "",
+      notificationType: "",
+      timer: null
     };
+  }
+  handleDismiss() {
+    this.setState({
+      notification: false
+    });
+    clearInterval(this.state.timer);
+  }
+  componentWillUnmount() {
+    clearInterval(this.state.timer);
+  }
+  delete(e, row) {
+    var details = {
+      item: row.value,
+      user: this.props.authData.user,
+      pass: this.props.authData.pass
+    };
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    fetch("/api/delete", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formBody
+    })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(json => {
+        if (json.status === "OK") {
+          this.setState({
+            notification: true,
+            notificationText: "Success! You have deleted " + json.message,
+            notificationType: "notification is-success"
+          });
+        } else {
+          this.setState({
+            notification: true,
+            notificationText: json.message,
+            notificationType: "notification is-danger"
+          });
+        }
+        this.loadData();
+
+        clearInterval(this.state.timer);
+
+        let timer = setInterval(this.handleDismiss, 3000);
+        this.setState({ timer });
+      })
+      .catch(function(ex) {
+        console.log("parsing failed", ex);
+      });
   }
 
   loadData() {
@@ -79,6 +144,8 @@ class Items extends Component {
 
   render() {
     const data = this.state.data;
+    const message = this.state.notificationText;
+    const type = this.state.notificationType;
 
     const columns = [
       {
@@ -101,6 +168,19 @@ class Items extends Component {
         filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["out_on"] }),
         filterAll: true
+      },
+      {
+        Header: "Delete",
+        accessor: "item_id",
+        Cell: row => (
+          <button
+            onClick={e => this.delete(e, row)}
+            className="button is-danger is-fullwidth"
+          >
+            DELETE
+          </button>
+        ),
+        filterable: false
       }
     ];
 
