@@ -19,7 +19,7 @@ import LoginComponent from "./Login";
 import Checkout from "./Checkout";
 import Return from "./Return";
 import Items from "./Items";
-import Lost from "./Lost";
+import Account from "./Account";
 import Add from "./Add";
 
 const Login = userIsNotAuthenticatedRedir(LoginComponent);
@@ -47,21 +47,33 @@ function App({ user, logout }) {
       <div className="Site">
         <div className="Site-content">
           <div className="columns">
-            <Link className="column is-half button is-info is-large" to="/">
+            <Link className="column is-quarter button is-info is-large" to="/">
               Checkout
             </Link>
             <Link
-              className=" column is-half button is-primary is-large"
+              className=" column is-quarter button is-primary is-large"
               to="/return"
             >
               Return
+            </Link>
+            <Link
+              className="column is-quarter button is-info is-large"
+              to="/add"
+            >
+              New Item
+            </Link>
+            <Link
+              className=" column is-quarter button is-primary is-large"
+              to="/account"
+            >
+              My Account
             </Link>
           </div>
           <Route path="/login" component={Login} />
           <Route exact path="/" component={Checkout} />
           <Route path="/return" component={Return} />
           <Route path="/items" component={Protected} />
-          <Route path="/lost" component={Lost} />
+          <Route path="/account" component={Account} />
           <Route path="/add" component={Add} />
         </div>
         <footer>

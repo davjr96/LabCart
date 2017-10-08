@@ -9,13 +9,21 @@ class Checkout extends Component {
       notification: false,
       notificationText: "",
       notificationType: "",
-      timer: null
+      timer: null,
+      userTimer: null
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDismiss = this.handleDismiss.bind(this);
+    this.handleExpire = this.handleExpire.bind(this);
+  }
+  handleExpire() {
+    this.setState({
+      email: ""
+    });
+    clearInterval(this.state.userTimer);
   }
   handleDismiss() {
     this.setState({
@@ -25,6 +33,7 @@ class Checkout extends Component {
   }
   componentWillUnmount() {
     clearInterval(this.state.timer);
+    clearInterval(this.state.userTimer);
   }
   handleInputChange(event) {
     const target = event.target;
@@ -79,9 +88,13 @@ class Checkout extends Component {
           });
         }
         clearInterval(this.state.timer);
+        clearInterval(this.state.userTimer);
 
         let timer = setInterval(this.handleDismiss, 5000);
         this.setState({ timer });
+
+        let userTimer = setInterval(this.handleExpire, 20000);
+        this.setState({ userTimer });
       })
       .catch(function(ex) {
         console.log("parsing failed", ex);
@@ -117,7 +130,7 @@ class Checkout extends Component {
                       type="text"
                       autoComplete="off"
                       autoFocus="on"
-                      checked={this.state.email}
+                      value={this.state.email}
                       onChange={this.handleInputChange}
                     />
                   </label>

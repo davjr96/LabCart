@@ -115,18 +115,11 @@ class Return extends Component {
                     />
                   </label>
                 </div>
-                <div className="columns">
-                  <div className="column is-one-half">
-                    <input
-                      className="button is-primary"
-                      type="submit"
-                      value="Submit"
-                    />
-                  </div>
-                  <div className="column is-one-half">
-                    <Link to="/lost">Lost your barcode?</Link>
-                  </div>
-                </div>
+                <input
+                  className="button is-primary"
+                  type="submit"
+                  value="Submit"
+                />
               </form>
             </div>
             <div className="column" />

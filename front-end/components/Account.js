@@ -155,15 +155,20 @@ class Lost extends Component {
         </div>
         <br />
         {this.state.table ? (
-          <ReactTable
-            className="-striped -highlight table"
-            data={data}
-            columns={columns}
-            defaultPageSize={10}
-            defaultFilterMethod={(filter, row) =>
-              String(row[filter.id]) === filter.value}
-            {...this.state.tableOptions}
-          />
+          <div>
+            <h2 className="subtitle">
+              You have checked out the following Items:
+            </h2>
+            <ReactTable
+              className="-striped -highlight table"
+              data={data}
+              columns={columns}
+              defaultPageSize={10}
+              defaultFilterMethod={(filter, row) =>
+                String(row[filter.id]) === filter.value}
+              {...this.state.tableOptions}
+            />
+          </div>
         ) : null}
       </div>
     );
