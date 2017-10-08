@@ -145,44 +145,20 @@ module.exports = function(app) {
   });
 
   //Add a new item
-  //This is only accessible by an admin, the credentials must be included in the post request
   app.post("/api/new", (req, res) => {
     var item = req.body.item;
-    var user = req.body.user;
-    var pass = req.body.pass;
-    pool.query(
-      "SELECT * FROM users WHERE users.user='" +
-        user +
-        "' AND users.pass='" +
-        pass +
-        "';",
-      function(err, dbres) {
-        if (err) {
-          return res.status(err.status || 500).json({
-            status: "error",
-            message: err.message
-          });
-        }
-        if (dbres.rows.length == 0) {
-          return res.status(401).json({
-            status: "Unauthorized",
-            message: "User Not Found"
-          });
-        } else {
-          pool.query(
-            "INSERT into items (item_id) VALUES ('" + item + "');",
-            function(err1, dbres1) {
-              if (err1) {
-                return res.status(err1.status || 500).json({
-                  status: "error",
-                  message: err1.message
-                });
-              }
-              return res.status(200).send({ status: "OK", message: item });
-            }
-          );
-        }
+
+    pool.query("INSERT into items (item_id) VALUES ('" + item + "');", function(
+      err1,
+      dbres1
+    ) {
+      if (err1) {
+        return res.status(err1.status || 500).json({
+          status: "error",
+          message: err1.message
+        });
       }
-    );
+      return res.status(200).send({ status: "OK", message: item });
+    });
   });
 };

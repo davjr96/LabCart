@@ -9,9 +9,6 @@ class Items extends Component {
   constructor(props) {
     super(props);
     this.loadData = this.loadData.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDismiss = this.handleDismiss.bind(this);
 
     this.state = {
       tableOptions: {
@@ -27,20 +24,8 @@ class Items extends Component {
         sortable: true,
         resizable: true
       },
-      data: [],
-      item: "",
-      notification: false,
-      notificationText: "",
-      notificationType: "",
-      timer: null
+      data: []
     };
-  }
-
-  handleDismiss() {
-    this.setState({
-      notification: false
-    });
-    clearInterval(this.state.timer);
   }
 
   loadData() {
@@ -91,76 +76,9 @@ class Items extends Component {
   componentDidMount() {
     this.loadData();
   }
-  componentWillUnmount() {
-    clearInterval(this.state.timer);
-  }
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-  handleSubmit(event) {
-    var details = {
-      item: this.state.item,
-      user: this.props.authData.user,
-      pass: this.props.authData.pass
-    };
-    var formBody = [];
-    for (var property in details) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(details[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-
-    fetch("/api/new", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: formBody
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(json => {
-        this.loadData();
-        this.setState({
-          item: ""
-        });
-        if (json.status === "OK") {
-          this.setState({
-            notification: true,
-            notificationText: "Success! You have added " + json.message,
-            notificationType: "notification is-success"
-          });
-        } else {
-          this.setState({
-            notification: true,
-            notificationText: json.message,
-            notificationType: "notification is-danger"
-          });
-        }
-        clearInterval(this.state.timer);
-
-        let timer = setInterval(this.handleDismiss, 3000);
-        this.setState({ timer });
-      })
-      .catch(function(ex) {
-        console.log("parsing failed", ex);
-      });
-    event.preventDefault();
-  }
 
   render() {
     const data = this.state.data;
-    const message = this.state.notificationText;
-    const type = this.state.notificationType;
 
     const columns = [
       {
@@ -194,24 +112,6 @@ class Items extends Component {
             {message}
           </div>
         ) : null}
-
-        <form onSubmit={this.handleSubmit}>
-          <div className="field">
-            <label className="label">
-              Item:
-              <input
-                className="input"
-                name="item"
-                type="text"
-                autoComplete="off"
-                value={this.state.item}
-                onChange={this.handleInputChange}
-              />
-            </label>
-          </div>
-
-          <input className="button is-primary" type="submit" value="Submit" />
-        </form>
 
         <br />
         <ReactTable
